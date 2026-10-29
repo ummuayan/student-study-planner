@@ -20,8 +20,13 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: POSTGRES_PASSWORD
             - name: DATABASE_URL
-              value: postgresql://planner:plannerpass@postgres:5432/studyplanner
+              value: "postgresql://planner:$(POSTGRES_PASSWORD)@postgres:5432/studyplanner"
 ---
 apiVersion: v1
 kind: Service
